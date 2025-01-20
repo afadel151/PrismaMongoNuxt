@@ -3,23 +3,21 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 export default defineEventHandler(async (event) => {
-  // Get the request body
   const body = await readBody(event);
 
-  const { email, name, address , posts} = body;
-
+  const { email, name, address } = body;
+  
   try {
     const newUser = await prisma.user.create({
       data: {
         email,
         name,
         address: address ? {
-          street: address.street,
-          city: address.city,
-          state: address.state,
-          zip: address.zip
+          street:address.street ? address.street : '',
+          city:address.city? address.city: '',
+          state: address.state? address.state: '',
+          zip: address.zip? address.zip: ''
         } : null,  
-        posts: posts ? posts : []
       },
     });
 

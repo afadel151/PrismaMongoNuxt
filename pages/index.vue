@@ -67,6 +67,7 @@ const handleSubmit = async () => {
 };
 async function fetchUsers(){
   const response  = await useFetch<User[]>("/api/users");
+  users.value = response.data.value
   console.log(response.data);
 }
 onMounted( () => {
